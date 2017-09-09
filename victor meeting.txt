@@ -1,0 +1,134 @@
+Ansible :
+
+
+Anisble is an automation tool.
+Automate OS tasks like OS patching , file creation , dir creation , installing applications , AWS  instance and srrvices etc.
+
+
+
+1. Agent less tool . 
+
+
+1. Setup password less ssh betwene master and cleint 
+2. install Ansible on master and control the clients. 
+
+Detailed steps :
+ rename the machines as master and cliebt
+
+hostnamectl set-hostname master
+hostnamectl set-hostname client
+
+
+2. generate keys on both master and client
+
+[root@master ~]# ssh-keygen -t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key (/root/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /root/.ssh/id_rsa.
+Your public key has been saved in /root/.ssh/id_rsa.pub.
+The key fingerprint is:
+
+3. on master 
+
+ cat /root/.ssh/id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVZINe71Wvdcv5cjTSgYefjjwLk+Ci0JJnSuPt/2wfOvIV0spSWs8TBJkhm25dNglhDkeSAe0uVTGrQBeWVxEMIyibjhHOCJYVVQUm7AARuR6EhcZE8IV2xS0ZwldHHSiIdrVbLJAognL29Yz5LKkwvJlrdNC1DIaOrhsKq7jHAQazeJjocD6OCyZTnblbXnACTAe+e3eFeCM0LJgD9+wFCgYnUHwkBfiNhogJ0lzULRr297QQa6v/yvBe3+cm2KGdVZLmRBKj36QVfLS6Xob0x+CKVxVbJQQYs+pGIYxoJe0NDIRt05UGQrQD4c3BVY8ZAQIXO+WpB+NDrOact2sf root@master
+[root@master
+
+4. copy the key in step 3 to ./root/.ssh/authorized_keys
+
+5. vi /etc/hosts on master and add client netries as below
+
+[root@master ~]# cat /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+107.23.153.239 client
+[root@master ~]#
+
+
+6. Install ansible 
+enable EPEL repo
+yum install ansible
+
+
+7. confgiure :
+
+vi /etc/ansible/hosts
+add the client  entries here
+8. create a playbook.
+
+
+What is a Playbook :
+a piece of code in ansible that performss a certain action. 
+Wht language ?
+YAML or JSON
+
+YNL 
+
+YML or JSON
+
+
+cd /etc/ansible/
+
+vi test.yml
+
+
+---
+- hosts: client
+
+
+[root@master ansible]# cat test.yml
+---
+- hosts: client
+  tasks:
+    - name: Create a dir
+      file:
+        path: /etc/some_directory
+        state: directory
+        mode: 0755
+[root@master ansible]#
+
+
+
+[root@master ansible]# cat test.yml
+---
+- hosts: client
+  tasks:
+    - name: Create a dir
+      file:
+        path: /etc/some_directory
+        state: directory
+        mode: 0755
+
+    - name: Create a file
+      file:
+        path: /etc/some_file
+        state: touch
+        mode: 0755
+    - name: To reboot
+      shell: reboot
+[root@master ansible]#
+
+
+
+
+1. Install Anisble 
+2. Setup 3 cleiints and create a group in ansible called devopsmachines
+3. Create a playbok to create 4 dir called /etc/hen1 hen2 hen3 and hen4
+4. create a playbook to create 5 files called /var/tmp/jack1 jack2 jack3 and jack4
+5. reboot all 3 clients
+6. now install  git on all 3 machines
+7. create  recursive directories called /var/tmp/test1/test2/test3/t4/t5/t6/t7/t8/t9/t0 on all machiens 
+8. Configure AWS CLI on al 3 machiens by writing a script and executing them using ansible playbok
+
+USER:-
+ansible
+AKIAJWQPEPRMZ5BKC6DA
+sEI5HsvWBml6Zrlx6cYnulZsiIwVWG9SLPRQE64C
+L'}ho@ZSL]}3
+
+
+
+
+
